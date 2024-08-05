@@ -1,237 +1,179 @@
-let description = document.createElement("p");
-description.setAttribute("id", "description");
-description.innerText =
-  "Pagination is the method of separating digital content into different pages on a website. Users can navigate between these pages by clicking below Buttons.";
-
-let container = ele("div", "class", "container");
-let maindiv = ele("div", "id", "main-div");
-let navbar = ele("nav", "id", "nav-bar");
-let title = ele("h1", "id", "title");
-title.innerHTML = "DOM-Pagination task :";
-
-function ele(tagname, attname, attvalue) {
-  let element = document.createElement(tagname);
-  element.setAttribute(attname, attvalue);
-  return element;
+try {
+  fetchData();
+} catch (e) {
+  console.log("error", e.message);
 }
 
-let content_div = document.createElement("div");
-content_div.setAttribute("id", "buttons");
-content_div.setAttribute("class", "d-flex justify-content-center");
-
-
-
-let ul_list = document.createElement("ul");
-ul_list.classList.add("pagination", "justify-content-center");
-ul_list.setAttribute("id", "ul-list");
-
-
-let list_pre = lists("li");
-let list_first = lists("li");
-
-let list_1 = lists("li");
-let list_2 = lists("li");
-let list_3 = lists("li");
-let list_4 = lists("li");
-let list_5 = lists("li");
-let list_6 = lists("li");
-
-let list_last = lists("li");
-let list_next = lists("li");
-
-function lists(tagname) {
-  let lists = document.createElement(tagname);
-  return lists;
-}
-
-
-let btn_pre = btnele("button","type","button","btn","btn-outline-primary","id","event-btn-pre","⏪Previous");
-let btn_first = btnele( "button", "type", "button","btn", "btn-outline-primary", "id", "event-btn-first", "First");
-let btn_last = btnele("button","type","button","btn","btn-outline-primary","id","event-btn-last","Last");
-let btn_next = btnele( "button", "type", "button","btn", "btn-outline-primary", "id", "event-btn-next", "Next⏩");
-let btn_1 = btnele( "button", "type", "button", "btn", "btn-outline-primary", "id", "event-btn-1", "1");
-let btn_2 = btnele("button", "type", "button", "btn", "btn-outline-primary", "id", "event-btn-2", "2");
-let btn_3 = btnele( "button", "type", "button", "btn", "btn-outline-primary", "id", "event-btn-3", "3");
-let btn_4 = btnele("button","type","button","btn","btn-outline-primary","id","event-btn-4","4");
-let btn_5 = btnele("button","type","button","btn","btn-outline-primary","id","event-btn-5","5");
-let btn_6 = btnele( "button","type","button","btn","btn-outline-primary","id","event-btn-6","6");
-
-function btnele( tagname, attname1, attvalue1, class1, class2, attname2, attvalue2, contenttext) {
-  let button = document.createElement(tagname);
-  button.setAttribute(attname1, attvalue1);
-  button.classList.add(class1, class2);
-  button.setAttribute(attname2, attvalue2);
-  button.innerHTML = contenttext;
-  return button;
-}
-
-
-let table_div = createtable("div");
-table_div.setAttribute("class", "table-responsive");
-
-let table_tag = createtable("table");
-table_tag.classList.add("table", "table-bordered");
-
-let table_body = createtable("tbody");
-table_body.setAttribute("id", "t-body");
-
-let table_head = createtable("thead");
-table_head.setAttribute("id", "table-head");
-let table_tr = createtable("tr");
-
-let table_th1 = createtable("th");
-table_th1.innerText = "Id";
-
-let table_th2 = createtable("th");
-table_th2.innerText = "Name";
-
-let table_th3 = createtable("th");
-table_th3.innerText = "Email";
-
-function createtable(taganme) {
-  let elements = document.createElement(taganme);
-  return elements;
-}
-
-paginationData();
-async function paginationData() {
-  let res = await fetch(
+function fetchData() {
+  return fetch(
     "https://raw.githubusercontent.com/Rajavasanthan/jsondata/master/pagenation.json"
-  );
-  let JsonFormat = await res.json();
-  
+  )
+    .then((res) => res.json())
+    .then((res) => originalData(res))
+    .catch((error) => console.log(error));
+}
 
-  try {
-    let namearr = [];
-    let emailarr = [];
-    let idarr = [];
-    for (let i = 0; i < 100; i++) {
-      let name = JsonFormat[i].name;
-      namearr.push(name);
-      let Email = JsonFormat[i].email;
-      emailarr.push(Email);
-      let id = JsonFormat[i].id;
-      idarr.push(id);
-     
-    }
-
-    let starting_value = 0;
-
-    
-    let addEvent_pre = document.getElementById("event-btn-pre");
-    addEvent_pre.addEventListener("click", () => {
-      if (starting_value > 0) {
-        starting_value = starting_value - 5;
-        display_contents(starting_value);
-      } else {
-        alert("You are already at the beginning of the First page!");
-      }
-    });
-    
-    let addEvent_next = document.getElementById("event-btn-next");
-    addEvent_next.addEventListener("click", () => {
-      if (starting_value < 30 && starting_value >= 0) {
-        starting_value = starting_value + 5;
-        display_contents(starting_value);
-      } else {
-        alert("You are already at the Last page!");
-      }
-    });
-   
-    let addEvent_first = document.getElementById("event-btn-first");
-    addEvent_first.addEventListener("click", () => {
-      starting_value = 0;
-      display_contents(starting_value);
-    });
-    
-    let addEvent_2nd = document.getElementById("event-btn-2");
-    addEvent_2nd.addEventListener("click", () => {
-      starting_value = 5;
-      display_contents(starting_value);
-    });
-   
-    let addEvent_3rd = document.getElementById("event-btn-3");
-    addEvent_3rd.addEventListener("click", () => {
-      starting_value = 10;
-      display_contents(starting_value);
-    });
-   
-    let addEvent_4th = document.getElementById("event-btn-4");
-    addEvent_4th.addEventListener("click", () => {
-      starting_value = 15;
-      display_contents(starting_value);
-    });
-   
-    let addEvent_5th = document.getElementById("event-btn-5");
-    addEvent_5th.addEventListener("click", () => {
-      starting_value = 20;
-      display_contents(starting_value);
-    });
-   
-    let addEvent_6th = document.getElementById("event-btn-6");
-    addEvent_6th.addEventListener("click", () => {
-      starting_value = 25;
-      display_contents(starting_value);
-    });
-
-    let addEvent_last = document.getElementById("event-btn-last");
-    addEvent_last.addEventListener("click", () => {
-      starting_value = 30;
-      display_contents(starting_value);
-    });
-
-    function display_contents(Number_of_items) {
-      let Table_body = document.getElementById("t-body");
-      Table_body.innerHTML = "";
-
-      for (let i = Number_of_items; i < Number_of_items + 5; i++) {
-        eventButtonFirst(`${idarr[i]}`, `${emailarr[i]}`, `${namearr[i]}`);
-
-        function eventButtonFirst(idData, emailData, nameData) {
-          let row = document.createElement("tr");
-          let td1 = document.createElement("td");
-          td1.innerHTML = `${idData}`;
-          let td2 = document.createElement("td");
-          td2.innerHTML = `${emailData}`;
-          let td3 = document.createElement("td");
-          td3.innerHTML = `${nameData}`;
-          table_body.append(row);
-          row.append(td1, td2, td3);
+function originalData(original_data) {
+  let current_page = 1; //be global ->so used with prev and next btns
+  //  this goTo func takes btn-id as input, so we can make request to call renderData based on btn click,
+  function goTo(input) {
+    //   console.log("input", input);
+    if (typeof input === "number") {
+      // console.log("No");
+      renderData(input);
+    } else if (typeof input === "string") {
+      // console.log("Str", input);
+      switch (input) {
+        case "next": {
+          if (current_page < no_of_pages) {
+            current_page = current_page + 1;
+            renderData(current_page);
+          }
+          break;
+        }
+        case "first": {
+          if (current_page !== 1) renderData(1);
+          break;
+        }
+        case "prev": {
+          if (current_page > 1) {
+            current_page = current_page - 1;
+            renderData(current_page);
+          }
+          break;
+        }
+        default: {
+          // console.log("default");
+          renderData(1);
         }
       }
     }
+  }
 
-    display_contents(starting_value);
+  let pagiButtons = document.getElementById("pagi-buttons");
 
-  } catch (error) {
-    console.log(error);
+  //this will render a group of buttons for page creation includes addEventlistnr to btns -->calling goTo func.
+  const reqButtons = (no_pages) => {
+    for (let i = 0; i < no_pages; i++) {
+      let button = document.createElement("button");
+      button.textContent = i + 1;
+      button.setAttribute("id", i + 1);
+      button.addEventListener("click", () => goTo(i + 1));
+      pagiButtons.appendChild(button);
+    }
+
+    if (no_pages > 2) {
+      //   prev,next and first btns
+      let prev = document.createElement("button");
+      prev.textContent = "prev";
+      prev.setAttribute("id", "prev");
+      prev.addEventListener("click", () => goTo("prev"));
+      pagiButtons.insertBefore(prev, pagiButtons.firstChild);
+
+      let next = document.createElement("button");
+      next.textContent = "next";
+      next.setAttribute("id", "next");
+      next.addEventListener("click", () => goTo("next"));
+      pagiButtons.append(next);
+
+      let first = document.createElement("button");
+      first.textContent = "first";
+      first.setAttribute("id", "first");
+      first.addEventListener("click", () => goTo("first"));
+      pagiButtons.insertBefore(first, pagiButtons.firstChild);
+    }
+  };
+
+  //  some table essential tags used as global for displayTableHead and tableBodyDisplay functions
+  const dataBox = document.getElementById("data-box");
+  const table = document.createElement("table");
+  const thead = document.createElement("thead");
+  const tbody = document.createElement("tbody");
+
+  //  rendered 1 time only on starting to give table headers , called globally
+  const displayTableHead = () => {
+    thead.innerHTML = `
+<tr>
+<th>Id</th>
+<th>Name</th>
+<th>Email</th>
+</tr>`;
+    table.append(thead);
+    dataBox.appendChild(table);
+  };
+
+  //  used to display table body with data-array from renderData
+  const tableBodyDisplay = (data) => {
+    tbody.textContent = "";
+
+    data.map((el) => {
+      tbody.innerHTML += `
+        <tr>
+        <td>${el.id}</td>
+        <td>${el.name}</td>
+        <td>${el.email}</td>
+        </tr>
+        `;
+    });
+
+    table.append(tbody);
+    dataBox.appendChild(table);
+  };
+
+  // below variable declaration, arrow functions required to be initialised b4 calling that,(since-unhoisted)
+  // so first arrow function declaration  then calling  those functions
+  let total_no_of_data = original_data.length;
+
+  //change this to get desired data per page
+  let data_per_page = 10; // be accessible to all functions
+  let no_of_pages = Math.ceil(total_no_of_data / data_per_page); // ceil to solve odd-even probs and provide required pages [in ceil -> even 1.1 results only to 2]
+
+  displayTableHead();
+  reqButtons(no_of_pages);
+  renderData(current_page);
+
+  //this will accept current page as input ,
+  //copies value to current_page global variable and slice and returns a array based on desired data per page input
+  function renderData(curr_page) {
+    current_page = curr_page;
+    let startIndex = (current_page - 1) * data_per_page;
+    let stopIndex = startIndex + data_per_page;
+    let dummyData = original_data.slice(startIndex, stopIndex);
+    // here "dummyData" will be that particular array, we will determine after slicing
+    console.log("startIndex", startIndex);
+    console.log("stopIndex", stopIndex);
+    console.log(dummyData);
+    tableBodyDisplay(dummyData);
+
+    //conditions to disable prev and first when page = starting page
+    if (current_page === 1) {
+      prev.setAttribute("disabled", true);
+      first.setAttribute("disabled", true);
+      prev.classList.add("disable-button");
+      first.classList.add("disable-button");
+    } else {
+      prev.removeAttribute("disabled");
+      first.removeAttribute("disabled");
+      prev.classList.remove("disable-button");
+      first.classList.remove("disable-button");
+    }
+    //conditions to disable next when hits last page
+    if (current_page === no_of_pages) {
+      next.setAttribute("disabled", true);
+      next.classList.add("disable-button");
+    } else {
+      next.removeAttribute("disabled");
+
+      next.classList.remove("disable-button");
+    }
+
+    //checks active btn condition for no btns
+    for (let i = 0; i < no_of_pages; i++) {
+      if (i + 1 === current_page) {
+        document.getElementById(i + 1).classList.add("active");
+      } else {
+        document.getElementById(i + 1).classList.remove("active");
+      }
+    }
   }
 }
-
-document.body.append(container);
-container.append(maindiv);
-maindiv.append(title, description, content_div, table_div);
-content_div.append(navbar);
-navbar.append(ul_list);
-
-ul_list.append( list_pre, list_first, list_1, list_2, list_3, list_4, list_5, list_6, list_next, list_last);
-list_pre.append(btn_pre);
-
-list_first.append(btn_first);
-
-list_2.appendChild(btn_2);
-list_3.appendChild(btn_3);
-list_4.appendChild(btn_4);
-list_5.appendChild(btn_5);
-list_6.appendChild(btn_6);
-
-list_last.append(btn_last);
-
-list_next.append(btn_next);
-
-
-table_div.append(table_tag);
-table_tag.append(table_head, table_body);
-table_head.append(table_tr);
-
-table_tr.append(table_th1, table_th2, table_th3);
